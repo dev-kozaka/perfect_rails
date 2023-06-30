@@ -7,17 +7,17 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: root
     ports:
-      - '3308:3308'
+      - '3309:3306'
     volumes:
       - ./tmp/db:/var/lib/mysql
 
   app:
     build: .
-    container_name: rails_base
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3002 -b '0.0.0.0'"
+    container_name: perfect_ruby_on_rails
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3005 -b '0.0.0.0'"
     volumes:
       - .:/app
     ports:
-      - '3002:3002'
+      - '3005:3005'
     depends_on:
       - db
