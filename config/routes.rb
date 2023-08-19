@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :books, only: [:show, :destroy]
   resources :publishers
   resource :profile
+  resources :sidekiq_sample, only: [:index, :create]
+  require 'sidekiq/web'
+  mount Sidekiq::Web, at: "/sidekiq"
 end

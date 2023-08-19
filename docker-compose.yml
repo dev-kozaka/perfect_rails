@@ -10,7 +10,6 @@ services:
       - '3309:3306'
     volumes:
       - ./tmp/db:/var/lib/mysql
-
   app:
     build: .
     container_name: perfect_ruby_on_rails
@@ -21,3 +20,21 @@ services:
       - '3005:3005'
     depends_on:
       - db
+  worker:
+    build: .
+    environment:
+      - "RAILS_ENV=development"
+      - "REDIS_URL=redis://redis:6379"
+    volumes:
+      - ".:/app"
+    depends_on:
+      - redis
+    command: bundle exec sidekiq
+  redis:
+    image: redis:6.2.0
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+
+volumes:
+  redis:
